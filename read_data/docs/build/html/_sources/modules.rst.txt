@@ -2,7 +2,7 @@
 
 info
 ====
-This repository ist for reading data from **Meilhaus XXXX DAQ**.
+This repository ist for reading data from **Meilhaus USB-1808**.
 Default channels 0 to 5 were read with 100.000 S/s.
 You can change parameters in *properties.json*.
 Run the *main* module read data from DAQ.
@@ -20,4 +20,3 @@ functions
    main
    main_cont_random
    readdata
-   readdata_dummy

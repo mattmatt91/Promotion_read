@@ -66,46 +66,21 @@
              
   <h1>Source code for readdata_dummy</h1><div class="highlight"><pre>
 <span></span>
-
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c1"># @UnusedWildImport</span>
-
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span><span class="p">,</span> <span class="n">time_ns</span><span class="p">,</span> <span class="n">time</span>
-<span class="kn">from</span> <span class="nn">ctypes</span> <span class="kn">import</span> <span class="n">cast</span><span class="p">,</span> <span class="n">POINTER</span><span class="p">,</span> <span class="n">c_double</span>
-
-<span class="kn">from</span> <span class="nn">mcculw</span> <span class="kn">import</span> <span class="n">ul</span>
-<span class="kn">from</span> <span class="nn">mcculw.enums</span> <span class="kn">import</span> <span class="n">ULRange</span><span class="p">,</span> <span class="n">AnalogInputMode</span><span class="p">,</span> <span class="n">ScanOptions</span><span class="p">,</span> \
-    <span class="n">FunctionType</span><span class="p">,</span> <span class="n">Status</span><span class="p">,</span> <span class="n">DigitalPortType</span><span class="p">,</span>  <span class="n">DigitalIODirection</span>
-<span class="kn">from</span> <span class="nn">mcculw.device_info</span> <span class="kn">import</span> <span class="n">DaqDeviceInfo</span>
-
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randrange</span>
-
 <span class="kn">import</span> <span class="nn">random</span>
 
 <div class="viewcode-block" id="read_data"><a class="viewcode-back" href="../readdata_dummy.html#readdata_dummy.read_data">[docs]</a><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-    <span class="c1"># print(properties)</span>
-    <span class="n">channel_num</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">device_to_show</span> <span class="o">=</span> <span class="s2">&quot;USB-1808&quot;</span>
-    <span class="n">board_num</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">rate</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;rate&#39;</span><span class="p">]</span>
-    <span class="n">points_per_channel</span> <span class="o">=</span> <span class="mi">10000</span>
-    <span class="n">memory_handle</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">ai_range</span> <span class="o">=</span> <span class="n">ULRange</span><span class="o">.</span><span class="n">BIP10VOLTS</span>
     <span class="n">max_samples</span> <span class="o">=</span> <span class="n">rate</span><span class="o">*</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;duration&#39;</span><span class="p">]</span>
-    <span class="n">droptime</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;droptime&#39;</span><span class="p">]</span>
-    <span class="n">low_channel</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">high_channel</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;sensors&#39;</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span>
-    <span class="n">num_channels</span> <span class="o">=</span> <span class="n">high_channel</span> <span class="o">-</span> <span class="n">low_channel</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_samples</span><span class="p">):</span>
         <span class="n">this_samples</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="mi">200000</span><span class="p">)</span>
         <span class="n">this_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">this_samples</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">this_samples</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">this_samples</span><span class="o">*</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">this_samples</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">this_samples</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">this_samples</span><span class="o">*</span><span class="mi">2</span><span class="p">)]</span>
         <span class="n">this_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">this_data</span><span class="p">]</span>
         <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">this_data</span><span class="p">)</span>
-    <span class="c1">#data = np.full([max_samples, num_channels], 1)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;sensors&#39;</span><span class="p">])</span>
     <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time [s]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">/</span><span class="n">rate</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
     <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;time [s]&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 

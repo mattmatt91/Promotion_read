@@ -1,4 +1,9 @@
 
+"""
+This module reads data from the DAQ Hardware.
+It is based on the mcculw libary.
+"""
+
 from __future__ import absolute_import, division, print_function
 from builtins import *  # @UnusedWildImport
 
@@ -12,10 +17,18 @@ from mcculw.device_info import DaqDeviceInfo
 
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 
 
 def read_data(properties, path):
+    """
+    This is the main function of the module.
+    This function records data with the parameters stored in
+    `properties.json <https://github.com/mattmatt91/Promotion_read/blob/17d5377d9a9d683c8a0f6951d904f73331a6ba1e/read_data/functions/properties.json>`_
+
+    Args:
+        properties (dictionary): dictionary with all parameters for the measurement
+        path (string): path to the measurement file
+    """
     # print(properties)
     channel_num = 0
     device_to_show = "USB-1808"

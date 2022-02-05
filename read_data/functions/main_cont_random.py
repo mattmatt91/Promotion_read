@@ -4,14 +4,40 @@ It creates random data sets with random parameters
 for testing the process_data moule
 """
 
+from __future__ import absolute_import, division, print_function
+
 from datetime import datetime
-import json as js
-import os
-from pathlib import Path
 import main as mn
+import pandas as pd
+import numpy as np
+from random import randrange
+import random
 
-from readdata_dummy import read_data 
 
+def generate_data(properties, path):
+    """
+    This funcion generates a dumme dataset and saves it to the path
+
+    Args:
+        properties (dictionary): dictionary with all parameters for the measurement
+        path (string): path to the measurement file
+    """
+    rate = properties['rate']
+    max_samples = rate*properties['duration']
+    data = []
+    for i in range(max_samples):
+        this_samples = (i%200000)
+        this_data = [np.sin(this_samples), np.sin(this_samples//2), np.sin(this_samples*2), np.tan(this_samples), np.tan(this_samples//2), np.tan(this_samples*2)]
+        this_data = [i*random.uniform(0, 1) for i in this_data]
+        data.append(this_data)
+    df = pd.DataFrame(data, columns=properties['sensors'])
+    df['time [s]'] = [i/rate for i in df.index]
+    df.set_index('time [s]', inplace=True) 
+    print(df.head())
+    print(df.info())
+    df.to_csv(path, sep='\t', decimal='.', index=True)
+    # df.plot()
+    # plt.show()
 
 def start_measurement(number_of_measurement):
     """
@@ -67,7 +93,7 @@ def start_measurement(number_of_measurement):
         mn.save_properties_measurement(properties)
 
         # main measuring part
-        read_data(properties, path_file)
+        generate_data(properties, path_file)
     
 if __name__ == '__main__':
     start_measurement(3)

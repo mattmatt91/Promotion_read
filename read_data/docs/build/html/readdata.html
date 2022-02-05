@@ -18,7 +18,6 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="readdata_dummy module" href="readdata_dummy.html" />
     <link rel="prev" title="main_cont_random module" href="main_cont_random.html" /> 
 </head>
 
@@ -44,7 +43,6 @@
 <li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="main_cont_random.html">main_cont_random module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">readdata module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readdata_dummy.html">readdata_dummy module</a></li>
 </ul>
 </li>
 </ul>
@@ -76,10 +74,23 @@
              
   <section id="module-readdata">
 <span id="readdata-module"></span><h1>readdata module<a class="headerlink" href="#module-readdata" title="Permalink to this headline"></a></h1>
+<p>This module reads data from the DAQ Hardware.
+It is based on the mcculw libary.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="readdata.read_data">
 <span class="sig-prename descclassname"><span class="pre">readdata.</span></span><span class="sig-name descname"><span class="pre">read_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/readdata.html#read_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#readdata.read_data" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This is the main function of the module.
+This function records data with the parameters stored in
+<a class="reference external" href="https://github.com/mattmatt91/Promotion_read/blob/17d5377d9a9d683c8a0f6951d904f73331a6ba1e/read_data/functions/properties.json">properties.json</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>properties</strong> (<em>dictionary</em>) – dictionary with all parameters for the measurement</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – path to the measurement file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 
@@ -88,7 +99,6 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="main_cont_random.html" class="btn btn-neutral float-left" title="main_cont_random module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="readdata_dummy.html" class="btn btn-neutral float-right" title="readdata_dummy module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
