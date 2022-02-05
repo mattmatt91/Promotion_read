@@ -1,33 +1,4 @@
-"""
-File:                       USB1808_a_in_scan_continuous.py
 
-Library Call Demonstrated:  mcculw.ul.a_in_scan() in Background mode with scan
-                            options BACKGROUND, CONTINUOUS and, SCALEDATA.
-
-Purpose:                    Scans a range of A/D Input Channels and stores
-                            the sample data in an array.
-
-Demonstration:              Displays the analog input from two channels
-                            during a continuously running scan.
-
-Other Library Calls:        mcculw.ul.get_board_name()
-                            mcculw.ul.flash_LED()
-                            mcculw.ul.a_chan_input_mode()
-                            mcculw.ul.scaled_win_buf_alloc()
-                            mcculw.ul.win_buf_free()
-                            mcculw.ul.get_status()
-                            mcculw.ul.stop_background()
-
-Special Requirements:       Analog signals on up to two input channels.
-                            For example, for single ended, connect terminals:
-                            CH0H to AGND,
-                            CH1H to +VO.
-
-Notes:                      No board detection or device discovery in this app.
-                            Device must be assigned in InstaCal as Board 0.
-                            This example is made simple so as not to
-                            be confusing (that was the hope anyway).
-"""
 from __future__ import absolute_import, division, print_function
 from builtins import *  # @UnusedWildImport
 

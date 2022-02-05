@@ -3,7 +3,7 @@ import json as js
 import os
 from pathlib import Path
 
-from readdata_dummy_data import read_data 
+from readdata_dummy import read_data 
 
 def get_immediate_subdirectories(a_dir):
     return [name for name in os.listdir(a_dir)
@@ -173,4 +173,4 @@ def start_measurement(number_of_measurement):
         read_data(properties, path_file)
     
 if __name__ == '__main__':
-    start_measurement(50)
+    start_measurement(3)
