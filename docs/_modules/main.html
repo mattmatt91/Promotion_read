@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>main &mdash; read_data 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> read_data
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">set up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">info</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html#id1">functions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">read_data</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      <li>main</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for main</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is the main mudule of the repository. It&#39;s main function starts a</span>
+<span class="sd">measurement and guides the user through it. Set up path for saving data before start</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">json</span> <span class="k">as</span> <span class="nn">js</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">readdata</span> <span class="kn">import</span> <span class="n">read_data</span> 
+
+<div class="viewcode-block" id="get_immediate_subdirectories"><a class="viewcode-back" href="../main.html#main.get_immediate_subdirectories">[docs]</a><span class="k">def</span> <span class="nf">get_immediate_subdirectories</span><span class="p">(</span><span class="n">a_dir</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function creates a list with immediate subdirectories.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        a_dir (string): path where subfolders are to be searched for</span>
+
+<span class="sd">    Returns (list): list with pathes of subdiretories</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">a_dir</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">a_dir</span><span class="p">,</span> <span class="n">name</span><span class="p">))]</span>  </div>
+
+<div class="viewcode-block" id="read_json"><a class="viewcode-back" href="../main.html#main.read_json">[docs]</a><span class="k">def</span> <span class="nf">read_json</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function reads a json file and returns the content.</span>
+<span class="sd">    The properties file with all parameters for the measurement</span>
+<span class="sd">    is read here.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename (stirng): name of the json file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        json_file (dictionary): dictionary with properties</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">js</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="get_path"><a class="viewcode-back" href="../main.html#main.get_path">[docs]</a><span class="k">def</span> <span class="nf">get_path</span><span class="p">(</span><span class="n">properties</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function guides the user into selecting the path to save the measurements.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        properties (dictionary): dictionary with all parameters for the measurement</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        folder (string): folder for saving measurements</span>
+<span class="sd">        path (string): path for saving maeasurements</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span>
+    <span class="n">last_dir</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;lastdir&#39;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;current directory: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;select path&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;press:&#39;</span><span class="p">)</span>
+    <span class="n">folders</span> <span class="o">=</span> <span class="n">get_immediate_subdirectories</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">folders_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="n">last_dir</span><span class="p">}</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;1 for last dir: &#39;</span><span class="p">,</span> <span class="n">last_dir</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">for</span> <span class="n">folder</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">:</span>
+        <span class="n">folders_dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">folder</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;for &#39;</span><span class="p">,</span> <span class="n">folder</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>   
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;press 0 for new folder&#39;</span><span class="p">)</span> 
+    <span class="n">folder</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">while</span> <span class="n">folder</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">user_input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">folders_dict</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">user_input</span><span class="p">)]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">user_input</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">user_input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;set foldername: &#39;</span><span class="p">)</span>
+                    <span class="n">directory</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">user_input</span><span class="p">)</span>
+                    <span class="n">this_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">directory</span><span class="p">)</span>
+                    <span class="n">Path</span><span class="p">(</span><span class="n">this_path</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Directory &#39;</span><span class="si">%s</span><span class="s2">&#39; created&quot;</span> <span class="o">%</span><span class="n">directory</span><span class="p">)</span>
+                    <span class="n">folder</span> <span class="o">=</span> <span class="n">directory</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;folder out of range&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="s1">&#39; selected&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">folder</span><span class="p">,</span> <span class="n">path</span></div>
+
+<div class="viewcode-block" id="select_sample"><a class="viewcode-back" href="../main.html#main.select_sample">[docs]</a><span class="k">def</span> <span class="nf">select_sample</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function guides the user into selecting a sample for the measurement.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        samples (list): list with all stored samples</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        sample (string): sensor for measurement</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;select sample&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;press:&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="s1">&#39;for&#39;</span><span class="p">,</span> <span class="n">samples</span><span class="p">[</span><span class="n">sample</span><span class="p">])</span>
+    <span class="n">sample</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">while</span> <span class="n">sample</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">user_input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">sample</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="n">user_input</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;samlple out of range&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="s1">&#39; selected&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sample</span></div>
+
+<div class="viewcode-block" id="select_height"><a class="viewcode-back" href="../main.html#main.select_height">[docs]</a><span class="k">def</span> <span class="nf">select_height</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function guides the user into selecting height for measurements.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        height (int):height of the measurement</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;select height&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;enter int in cm:&#39;</span><span class="p">)</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">while</span> <span class="n">height</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">user_input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">user_input</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;height: &#39;</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="s1">&#39;cm&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">height</span></div>
+
+<div class="viewcode-block" id="set_number"><a class="viewcode-back" href="../main.html#main.set_number">[docs]</a><span class="k">def</span> <span class="nf">set_number</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function guides the user into selecting a number for the measurement.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        sample_number (int): number for measurement</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;select number&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;enter int:&#39;</span><span class="p">)</span>
+    <span class="n">sample_number</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">while</span> <span class="n">sample_number</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">user_input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">sample_number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">user_input</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;not an integer&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;number: &#39;</span><span class="p">,</span> <span class="n">sample_number</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sample_number</span></div>
+
+<div class="viewcode-block" id="add_info"><a class="viewcode-back" href="../main.html#main.add_info">[docs]</a><span class="k">def</span> <span class="nf">add_info</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function guides the user into adding an info for the measurement.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        info (string): additional info for measurement</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">user_input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;add info&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">user_input</span></div>
+
+<div class="viewcode-block" id="update_properties"><a class="viewcode-back" href="../main.html#main.update_properties">[docs]</a><span class="k">def</span> <span class="nf">update_properties</span><span class="p">(</span><span class="n">properties</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function updates the properties.jsoen file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        properties (dictionary): dictionary with all parameters for the measurement</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">update_json</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="s2">&quot;rate duration sensors path lastdir droptime&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        <span class="n">update_json</span><span class="p">[</span><span class="n">item</span><span class="p">]</span><span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+
+    <span class="n">json_string</span> <span class="o">=</span> <span class="n">js</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">update_json</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;properties.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+        <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json_string</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="mkdir"><a class="viewcode-back" href="../main.html#main.mkdir">[docs]</a><span class="k">def</span> <span class="nf">mkdir</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">folder</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This file creates a new directory for a new measurent.</span>
+<span class="sd">    The name consists of the sample, the number and a time stamp.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        properties (dictionary): dictionary with all parameters for the measurement</span>
+<span class="sd">        folder (string): name for new folder</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        path (string): path to measurement folder</span>
+<span class="sd">        path_file (string): path to measurement file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;sample_number&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">])</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">],</span> <span class="n">folder</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">path_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="n">path_file</span> <span class="o">=</span> <span class="n">path_file</span> <span class="o">+</span> <span class="s1">&#39;.txt&#39;</span>
+    <span class="k">return</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_file</span></div>
+
+<div class="viewcode-block" id="save_properties_measurement"><a class="viewcode-back" href="../main.html#main.save_properties_measurement">[docs]</a><span class="k">def</span> <span class="nf">save_properties_measurement</span><span class="p">(</span><span class="n">properties</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function saves the measurement specific properties in a file called</span>
+<span class="sd">    **info.json** in the measurement folder.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        properties (dictionary): dictionary with all parameters for the measurement</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">save_properties</span> <span class="o">=</span> <span class="n">properties</span>
+    <span class="k">del</span> <span class="n">save_properties</span><span class="p">[</span><span class="s1">&#39;lastdir&#39;</span><span class="p">]</span>
+    <span class="n">json_string</span> <span class="o">=</span> <span class="n">js</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">save_properties</span><span class="p">)</span>
+    <span class="n">json_name</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">info.json&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_name</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+        <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json_string</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="start_measurement"><a class="viewcode-back" href="../main.html#main.start_measurement">[docs]</a><span class="k">def</span> <span class="nf">start_measurement</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the main funciton of the module.</span>
+<span class="sd">    It guides the user through the measurement via console.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># reading sample list</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;samples.json&#39;</span><span class="p">)</span>
+
+    <span class="c1"># reading properties</span>
+    <span class="n">properties</span> <span class="o">=</span> <span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;properties.json&#39;</span><span class="p">)</span>
+
+    <span class="c1"># select path</span>
+    <span class="n">folder</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">get_path</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+    <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;lastdir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">folder</span>
+
+    <span class="c1">#select sample</span>
+    <span class="n">sample</span> <span class="o">=</span> <span class="n">select_sample</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+    <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;sample&quot;</span><span class="p">]</span><span class="o">=</span> <span class="n">sample</span>
+
+    <span class="c1">#select height</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="n">select_height</span><span class="p">()</span>
+    <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;height&quot;</span><span class="p">]</span><span class="o">=</span> <span class="n">height</span>
+
+    <span class="c1">#select number of sample</span>
+    <span class="n">sample_number</span> <span class="o">=</span> <span class="n">set_number</span><span class="p">()</span>
+    <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;sample_number&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_number</span>
+
+    <span class="c1">#add info</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">add_info</span><span class="p">()</span>
+    <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span>
+    
+    <span class="c1">#setting timestamp</span>
+    <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;datetime&quot;</span><span class="p">]</span><span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">-%m-%Y_%H-%M-%S&quot;</span><span class="p">)</span>
+
+    <span class="c1"># updating poperties global json</span>
+    <span class="n">update_properties</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+    
+    <span class="c1"># make dir for measurement</span>
+    <span class="n">path</span><span class="p">,</span> <span class="n">path_file</span> <span class="o">=</span> <span class="n">mkdir</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">folder</span><span class="p">)</span>
+    <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">path</span>
+
+    <span class="c1"># saving properties for measurement</span>
+    <span class="n">save_properties_measurement</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="c1"># main measuring part</span>
+    <span class="n">read_data</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">path_file</span><span class="p">)</span></div>
+    
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">start_measurement</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Matthias Muhr.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
