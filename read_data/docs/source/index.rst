@@ -6,7 +6,7 @@ Welcome to read data documentation!
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    
    start
    modules

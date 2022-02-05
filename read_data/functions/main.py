@@ -1,19 +1,53 @@
+"""
+This is the main mudule of the repository. It's main function starts a
+measurement and guides the user through it. Set up path for saving data before start
+"""
+
 from datetime import datetime
 import json as js
 import os
 from pathlib import Path
 
-from readdata_dummy_data import read_data 
+from readdata import read_data 
 
 def get_immediate_subdirectories(a_dir):
+    """
+    This function creates a list with immediate subdirectories.
+
+    Args:
+        a_dir (string): path where subfolders are to be searched for
+
+    Returns (list): list with pathes of subdiretories
+    """
     return [name for name in os.listdir(a_dir)
             if os.path.isdir(os.path.join(a_dir, name))]  
 
 def read_json(filename):
+    """
+    This function reads a json file and returns the content.
+    The properties file with all parameters for the measurement
+    is read here.
+
+    Args:
+        filename (stirng): name of the json file
+
+    Returns:
+        json_file (dictionary): dictionary with properties
+    """
     with open(filename) as json_file:
         return js.load(json_file)
     
 def get_path(properties):
+    """
+    This function guides the user into selecting the path to save the measurements.
+
+    Args:
+        properties (dictionary): dictionary with all parameters for the measurement
+
+    Returns:
+        folder (string): folder for saving measurements
+        path (string): path for saving maeasurements
+    """
     path = properties['path']
     last_dir = properties['lastdir']
     print('current directory: {0}'.format(path))
@@ -50,6 +84,15 @@ def get_path(properties):
     return folder, path
 
 def select_sample(samples):
+    """
+    This function guides the user into selecting a sample for the measurement.
+
+    Args:
+        samples (list): list with all stored samples
+
+    Returns:
+        sample (string): sensor for measurement
+    """
     print('select sample')
     print('press:')
     for sample in samples:
@@ -65,6 +108,12 @@ def select_sample(samples):
     return sample
 
 def select_height():
+    """
+    This function guides the user into selecting height for measurements.
+
+    Returns:
+        height (int):height of the measurement
+    """
     print('select height')
     print('enter int in cm:')
     height = None
@@ -78,6 +127,12 @@ def select_height():
     return height
 
 def set_number():
+    """
+    This function guides the user into selecting a number for the measurement.
+
+    Returns:
+        sample_number (int): number for measurement
+    """
     print('select number')
     print('enter int:')
     sample_number = None
@@ -91,10 +146,22 @@ def set_number():
     return sample_number
 
 def add_info():
+    """
+    This function guides the user into adding an info for the measurement.
+
+    Returns:
+        info (string): additional info for measurement
+    """
     user_input = input('add info')
     return user_input
 
 def update_properties(properties):
+    """
+    This function updates the properties.jsoen file.
+
+    Args:
+        properties (dictionary): dictionary with all parameters for the measurement
+    """
     update_json = {}
     for item in "rate duration sensors path lastdir droptime".split():
         update_json[item]= properties[item]
@@ -104,6 +171,18 @@ def update_properties(properties):
         outfile.write(json_string)
     
 def mkdir(properties, folder):
+    """
+    This file creates a new directory for a new measurent.
+    The name consists of the sample, the number and a time stamp.
+
+    Args:
+        properties (dictionary): dictionary with all parameters for the measurement
+        folder (string): name for new folder
+
+    Returns:
+        path (string): path to measurement folder
+        path_file (string): path to measurement file
+    """
     name = properties['sample'] + '_' + str(properties['sample_number']) + '_' + str(properties['datetime'])
     path = os.path.join(properties['path'], folder, name)
     Path(path).mkdir(parents=True, exist_ok=True)
@@ -112,6 +191,13 @@ def mkdir(properties, folder):
     return path, path_file
 
 def save_properties_measurement(properties):
+    """
+    This function saves the measurement specific properties in a file called
+    **info.json** in the measurement folder.
+
+    Args:
+        properties (dictionary): dictionary with all parameters for the measurement
+    """
     save_properties = properties
     del save_properties['lastdir']
     json_string = js.dumps(save_properties)
@@ -120,6 +206,10 @@ def save_properties_measurement(properties):
         outfile.write(json_string)
 
 def start_measurement():
+    """
+    This is the main funciton of the module.
+    It guides the user through the measurement via console.
+    """
     # reading sample list
     samples = read_json('samples.json')
 
