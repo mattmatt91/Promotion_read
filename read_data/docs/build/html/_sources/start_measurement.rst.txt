@@ -1,7 +1,0 @@
-start\_measurement module
-=========================
-
-.. automodule:: start_measurement
-   :members:
-   :undoc-members:
-   :show-inheritance:
