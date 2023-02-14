@@ -20,17 +20,6 @@ import matplotlib.pyplot as plt
 
 
 def read_data(properties, path):
-    """
-    This is the main function of the module.
-    This function records data with the parameters stored in
-    `properties.json <https://github.com/mattmatt91/Promotion_read/blob/17d5377d9a9d683c8a0f6951d904f73331a6ba1e/read_data/functions/properties.json>`_
-
-    Args:
-        properties (dictionary): dictionary with all parameters for the measurement
-        path (string): path to the measurement file
-    """
-    # print(properties)
-    channel_num = 0
     device_to_show = "USB-1808"
     board_num = 0
     rate = properties['rate']
@@ -39,8 +28,6 @@ def read_data(properties, path):
     ai_range = ULRange.BIP10VOLTS
     max_samples = rate*properties['duration']
     droptime = properties['droptime']
-
-
 
     buff_check = 0  # 0 = lower_half, 1 = upper_half
 
@@ -58,7 +45,7 @@ def read_data(properties, path):
             print("\nNo board found at Board 0.")
             print(e)
             return
-
+    
     else:
         if device_to_show in board_name:
             # Board 0 is the desired device...
@@ -71,7 +58,6 @@ def read_data(properties, path):
             print("\nNo {0} series found as Board 0. Please run InstaCal."
                   .format(device_to_show))
             return
-
     try:
         # select channels...
         low_channel = 0
@@ -206,9 +192,9 @@ def read_data(properties, path):
         df.set_index('time [s]', inplace=True) 
         print(df.head())
         print(df.info())
-        df.to_csv(path, sep='\t', decimal='.', index=True)
-        df.plot()
-        plt.show()
+        df.to_csv(path, sep=';', decimal=',', index=True)
+        # df.plot()
+        # plt.show()
         
         
 

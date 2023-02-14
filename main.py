@@ -101,7 +101,7 @@ def update_properties(properties):
 
     json_string = js.dumps(update_json)
     with open('properties.json', 'w') as outfile:
-        outfile.write(json_string)
+        outfile.write(js.dumps(json_string, indent=4))
     
 def mkdir(properties, folder):
     name = properties['sample'] + '_' + str(properties['sample_number']) + '_' + str(properties['datetime'])
@@ -117,7 +117,7 @@ def save_properties_measurement(properties):
     json_string = js.dumps(save_properties)
     json_name = properties['path'] + '\\info.json'
     with open(json_name, 'w') as outfile:
-        outfile.write(json_string)
+        outfile.write(js.dumps(json_string, indent=4))
 
 def start_measurement():
     # reading sample list

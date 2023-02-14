@@ -1,1 +1,17 @@
-{"rate": 100000, "duration": 3, "sensors": ["Mikro", "Piezo", "VIS1", "IR1", "VIS2", "IR2"], "path": "C:\\Users\\admin\\Desktop\\data_PHD", "lastdir": "test6", "droptime": 1}
+{
+    "rate": 100000,
+    "duration": 3,
+    "sensors": [
+        "VIS3",
+        "IR3",
+        "Mikro",
+        "Piezo",
+        "IR1",
+        "IR2",
+        "VIS1",
+        "VIS2"
+    ],
+    "path": "C:\\Users\\admin\\Desktop\\data_PHD",
+    "lastdir": "test6",
+    "droptime": 1
+}
