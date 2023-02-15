@@ -12,15 +12,9 @@
       "VIS1",
       "VIS2"
    ],
-   "path": "test_data",
-   "lastdir": "test7",
+   "path": "C:\\Users\\admin\\Desktop\\data_PHD",
+   "lastdir": "test6",
    "droptime": 1,
    "sample": "TATP",
-   "sample_counts": {
-      "TATP": 11,
-      "HMTD": 2,
-      "BLANK": 2,
-      "SUGAR": 2,
-      "KNALLPLLAETTCHEN": 2
-   }
+   "number":0
 }

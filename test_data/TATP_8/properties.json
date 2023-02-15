@@ -17,10 +17,12 @@
    "droptime": 1,
    "sample": "TATP",
    "sample_counts": {
-      "TATP": 11,
+      "TATP": 9,
       "HMTD": 2,
       "BLANK": 2,
       "SUGAR": 2,
       "KNALLPLLAETTCHEN": 2
-   }
+   },
+   "datetime": "15-02-2023_23-32-56",
+   "number": 8
 }
