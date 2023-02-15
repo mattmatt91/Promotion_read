@@ -2,52 +2,76 @@ from datetime import datetime
 import json as js
 import os
 from pathlib import Path
+from colorama import Fore, Back, Style
 
-from readdata import read_data 
-
-def get_immediate_subdirectories(a_dir):
-    return [name for name in os.listdir(a_dir)
-            if os.path.isdir(os.path.join(a_dir, name))]  
+# from readdata import read_data 
 
 def read_json(filename):
     with open(filename) as json_file:
         return js.load(json_file)
-    
-def get_path(properties): 
-    path = properties['path']
+
+
+def check_if_int(num):
+    try:
+        return int(num)
+    except:
+        return None
+
+def get_path(properties):
+    root_path_data = properties['path']
     last_dir = properties['lastdir']
-    print('current directory: {0}'.format(path))
-    print('select path')
-    print('press:')
-    folders = get_immediate_subdirectories(path)
-    folders_dict = {1: last_dir}
-    print('1 for last dir: ', last_dir)
-    i = 2
-    for folder in folders:
-        folders_dict[i] = folder
-        
-        print(i, 'for ', folder)
-        i += 1   
-    print('press 0 for new folder') 
-    folder = None
-    while folder == None:
-        user_input = input()
-        try:
-            folder = folders_dict[int(user_input)]
-        except:
-            try:
-                if int(user_input) == 0:
-                    user_input = input('set foldername: ')
-                    directory = str(user_input)
-                    this_path = os.path.join(path, directory)
-                    Path(this_path).mkdir(parents=True, exist_ok=True)
-                    print("Directory '%s' created" %directory)
-                    folder = directory
-            except:
-                pass
-                print('folder out of range')
-    print(folder, ' selected')
-    return folder, path
+    path = os.path.join(root_path_data, last_dir)
+    return path
+
+def start_measurement():
+    # reading sample list
+    properties = read_json('properties.json')
+    samples = [i for i in properties['samples']]
+    # reading properties
+
+    # select path
+    path = get_path(properties)
+    exit()
+    properties['lastdir'] = folder
+
+    #select sample
+    sample = select_sample(samples)
+    properties["sample"]= sample
+
+    #select height
+    height = select_height()
+    properties["height"]= height
+
+    #select number of sample
+    sample_number = set_number()
+    properties['sample_number'] = sample_number
+
+    #add info
+    info = add_info()
+    properties['info'] = info
+    
+    #setting timestamp
+    properties["datetime"]= datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
+
+    # updating poperties global json
+    update_properties(properties)
+    
+    # make dir for measurement
+    path, path_file = mkdir(properties, folder)
+    properties['path'] = path
+
+    # saving properties for measurement
+    save_properties_measurement(properties)
+
+    # main measuring part
+    read_data(properties, path_file)
+###########################
+
+def get_immediate_subdirectories(a_dir):
+    return [name for name in os.listdir(a_dir)
+            if os.path.isdir(os.path.join(a_dir, name))]  
+    
+
 
 def select_sample(samples):
     print('select sample')
@@ -119,48 +143,6 @@ def save_properties_measurement(properties):
     with open(json_name, 'w') as outfile:
         outfile.write(js.dumps(json_string, indent=4))
 
-def start_measurement():
-    # reading sample list
-    samples = read_json('samples.json')
-
-    # reading properties
-    properties = read_json('properties.json')
-
-    # select path
-    folder, path = get_path(properties)
-    properties['lastdir'] = folder
-
-    #select sample
-    sample = select_sample(samples)
-    properties["sample"]= sample
-
-    #select height
-    height = select_height()
-    properties["height"]= height
-
-    #select number of sample
-    sample_number = set_number()
-    properties['sample_number'] = sample_number
-
-    #add info
-    info = add_info()
-    properties['info'] = info
-    
-    #setting timestamp
-    properties["datetime"]= datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
-
-    # updating poperties global json
-    update_properties(properties)
-    
-    # make dir for measurement
-    path, path_file = mkdir(properties, folder)
-    properties['path'] = path
-
-    # saving properties for measurement
-    save_properties_measurement(properties)
-
-    # main measuring part
-    read_data(properties, path_file)
     
 if __name__ == '__main__':
     start_measurement()
