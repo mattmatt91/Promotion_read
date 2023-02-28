@@ -6,7 +6,7 @@ from colorama import Fore, Back, Style
 import pandas as pd
 import plotly.express as px
 import numpy as np
-# from readdata import read_data
+from readdata import read_data
 
 
 def start_measurement():
@@ -22,8 +22,8 @@ def start_measurement():
         properties_measurement.pop(i)
     save_json(properties, 'properties.json')
     save_json(properties_measurement, os.path.join(path, 'properties.json'))
-    # df = read_data(properties)
-    df = create_test_df(properties)
+    df = read_data(properties)
+    # df = create_test_df(properties)
     save_df(df, path)
     fig = px.line(
         df, title=properties_measurement["sample"] + '_' + str(properties_measurement['number']))

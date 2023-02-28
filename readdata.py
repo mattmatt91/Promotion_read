@@ -19,7 +19,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-def read_data(properties, path):
+def read_data(properties):
     device_to_show = "USB-1808"
     board_num = 0
     rate = properties['rate']
@@ -67,7 +67,7 @@ def read_data(properties, path):
         # Set channel(s) to single ended input mode...
         for channel in range(num_channels):
             ul.a_chan_input_mode(board_num, channel,
-                                 AnalogInputMode.SINGLE_ENDED)
+                                 AnalogInputMode.DIFFERENTIAL)
 
         # set up digital out
         port_value = 0xFF
@@ -188,13 +188,9 @@ def read_data(properties, path):
                     ul.win_buf_free(memory_handle)
 
         df = pd.DataFrame(data, columns=properties['sensors'])
-        df['time [s]'] = [i/rate for i in df.index]
-        df.set_index('time [s]', inplace=True) 
-        print(df.head())
-        print(df.info())
-        df.to_csv(path, sep=';', decimal=',', index=True)
-        # df.plot()
-        # plt.show()
+        df['time'] = [i/rate for i in df.index]
+        df.set_index('time', inplace=True) 
+        return df
         
         
 
