@@ -26,7 +26,7 @@ def start_measurement():
     # df = create_test_df(properties)
     save_df(df, path)
     fig = px.line(
-        df, title=properties_measurement["sample"] + '_' + str(properties_measurement['number']))
+        df.loc[1.3:], title=properties_measurement["sample"] + '_' + str(properties_measurement['number']))
     fig.write_html(os.path.join(path, "quickplot.html"))
     # fig.show()
 
@@ -68,5 +68,5 @@ def save_df(df, path):
               decimal=',', sep=';', index=True)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': # dieser Teil wird immer ausgeführt wenn das programm explizit ausgegeben wird
     start_measurement()
