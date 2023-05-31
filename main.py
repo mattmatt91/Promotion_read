@@ -1,6 +1,6 @@
 from datetime import datetime
 import json as js
-import os
+from os.path import join
 from pathlib import Path
 from colorama import Fore, Back, Style
 import pandas as pd
@@ -11,23 +11,42 @@ from readdata import read_data
 
 def start_measurement():
     properties = read_json('properties.json')
-    path = os.path.join(properties['path'], properties['lastdir'])
+    path = join(properties['path'], properties['lastdir'])
     properties_measurement = properties.copy()
     properties_measurement["datetime"] = datetime.now().strftime(
         "%d-%m-%Y_%H-%M-%S")
     properties_measurement["number"] = properties["sample_counts"][properties["sample"]]
     properties["sample_counts"][properties["sample"]] += 1
-    path = mk_dir_measurement(properties_measurement, path)
     for i in ['sample_counts', 'lastdir', 'path']:
         properties_measurement.pop(i)
-    save_json(properties, 'properties.json')
-    save_json(properties_measurement, os.path.join(path, 'properties.json'))
     df = read_data(properties)
+    save_json(properties, 'properties.json')
     # df = create_test_df(properties)
-    save_df(df, path)
-    fig = px.line(
-        df.loc[1.3:], title=properties_measurement["sample"] + '_' + str(properties_measurement['number']))
-    fig.write_html(os.path.join(path, "quickplot.html"))
+    my_input = int(input('press 1 if success and 0 for super fail'))
+    if my_input ==1 :
+        input2 = input("did sample combust?\npress\na for full\ns for partial\nd for none\n")
+        if input2 == "a":
+            combustion = 'full'
+            combustion_bool = True
+        elif input2 == "s":
+            combustion_bool = True
+            combustion = 'partial'
+        elif input2 == "d":
+            combustion = 'none'
+            combustion_bool = False
+        else: 
+            combustion = 'unknown'
+            combustion_bool = False
+        properties_measurement['combustion']= combustion
+        properties_measurement['combustion_bool']= combustion_bool
+        path = mk_dir_measurement(properties_measurement, path)
+        save_json(properties_measurement, join(path, 'properties.json'))
+        save_df(df, path)
+        fig = px.line(
+            df.loc[1.3:], title=properties_measurement["sample"] + '_' + str(properties_measurement['number']))
+        fig.write_html(join(path, "quickplot.html"))
+    else:
+        print('Game over, try again')
     # fig.show()
 
 
@@ -51,7 +70,7 @@ def read_json(filename):
 
 def mk_dir_measurement(properties, path):
     name = properties['sample'] + '_' + str(properties['number'])
-    path = os.path.join(properties['path'], properties['lastdir'], name)
+    path = join(path, name)
     Path(path).mkdir(parents=True, exist_ok=True)
     return path
 
@@ -64,7 +83,7 @@ def save_json(prop_dict, path):
 
 
 def save_df(df, path):
-    df.to_csv(os.path.join(path, 'data.csv'),
+    df.to_csv(join(path, 'data.csv'),
               decimal=',', sep=';', index=True)
 
 

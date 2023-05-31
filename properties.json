@@ -1,7 +1,7 @@
 {
    "rate": 100000,
    "duration": 1.5,
-   "height": 30,
+   "height": 40,
    "sensors": [
       "VIS3",
       "IR3",
@@ -12,15 +12,23 @@
       "Mikro",
       "Piezo"
    ],
-   "path": "C:\\Users\\admin\\Desktop\\data_PHD",
-   "lastdir": "testmessungen_kp",
+   "path": "C:\\Users\\admin\\Desktop\\data_PHD\\",
+   "lastdir": "test_dataset",
    "droptime": 1,
-   "sample": "KNALLPLLAETTCHEN",
+   "sample": "AgN3",
+   "ball": "15",
    "sample_counts": {
-      "TATP": 0,
-      "HMTD": 0,
-      "BLANK": 0,
-      "SUGAR": 0,
-      "KNALLPLLAETTCHEN": 1
+      "AgN3": 70,
+      "Pb(N3)2": 49,
+      "Probe_Test": 24,
+      "UNKNOWN": 1,
+      "TATP": 58,
+      "HMTD": 174,
+      "HMTDn": 77,
+      "BLANK": 42,
+      "BLANK_Ball15mm": 62,
+      "Salt": 31,
+      "KNALLPLLAETTCHEN": 0,
+      "PAPIER_KNALLPLAETTCHEN": 0
    }
 }
